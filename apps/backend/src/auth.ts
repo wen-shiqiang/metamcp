@@ -6,6 +6,7 @@ import { db } from "./db/index";
 import * as schema from "./db/schema";
 import { configService } from "./lib/config.service";
 import logger from "./utils/logger";
+import type { WebResponse } from "./types/web-response";
 
 // Provide default values for development
 if (!process.env.BETTER_AUTH_SECRET) {
@@ -184,10 +185,12 @@ export const auth = betterAuth({
 console.log("✓ Better Auth instance created successfully");
 console.log(`✓ OIDC Providers configured: ${oidcProviders.length}`);
 
+export type { WebResponse } from "./types/web-response";
+
 export async function handleAuthRequest(
   request: Request,
-): Promise<globalThis.Response> {
-  return (await auth.handler(request)) as unknown as globalThis.Response;
+): Promise<WebResponse> {
+  return (await auth.handler(request)) as unknown as WebResponse;
 }
 
 export type Session = typeof auth.$Infer.Session;

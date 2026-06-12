@@ -414,11 +414,11 @@ async function ensureUser(
       }),
     });
 
-    const response = await handleAuthRequest(request);
-    if (!response.ok) {
-      const body = await response.text().catch(() => "");
+    const authResponse = await handleAuthRequest(request);
+    if (!authResponse.ok) {
+      const body = await authResponse.text().catch(() => "");
       console.warn(
-        `⚠️ Better Auth sign-up failed for ${email} (${response.status}). Continuing startup. ${
+        `⚠️ Better Auth sign-up failed for ${email} (${authResponse.status}). Continuing startup. ${
           body ? `Response: ${body}` : ""
         }`,
       );
