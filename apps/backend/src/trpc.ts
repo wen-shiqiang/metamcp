@@ -1,6 +1,6 @@
 import type { BaseContext } from "@repo/trpc";
 import { initTRPC, TRPCError } from "@trpc/server";
-import type { Request, Response } from "express";
+import type { Request, Response as ExpressResponse } from "express";
 
 import { auth, type Session, type User } from "./auth";
 import logger from "./utils/logger";
@@ -8,7 +8,7 @@ import logger from "./utils/logger";
 // Extend the base context with Express request/response and auth data
 export interface Context extends BaseContext {
   req: Request;
-  res: Response;
+  res: ExpressResponse;
   user?: User;
   session?: Session;
 }
@@ -19,7 +19,7 @@ export const createContext = async ({
   res,
 }: {
   req: Request;
-  res: Response;
+  res: ExpressResponse;
 }): Promise<Context> => {
   let user: User | undefined;
   let session: Session | undefined;
