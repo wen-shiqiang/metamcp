@@ -321,7 +321,7 @@ const createTransport = async (req: express.Request): Promise<Transport> => {
 
     const transport = new SSEClientTransport(new URL(url), {
       eventSourceInit: {
-        fetch: (url, init) => fetch(url, { ...init, headers }),
+        fetch: (url, init) => globalThis.fetch(url, { ...init, headers }),
       },
       requestInit: {
         headers,

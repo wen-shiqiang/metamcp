@@ -77,7 +77,7 @@ async function validateOAuthToken(
           body: JSON.stringify({ token }),
         });
 
-        const introspectResponse = await fetch(introspectRequest);
+        const introspectResponse = await globalThis.fetch(introspectRequest);
 
         if (!introspectResponse.ok) {
           return { valid: false, error: "Token introspection failed" };

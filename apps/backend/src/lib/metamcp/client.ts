@@ -103,7 +103,7 @@ export const createMetaMcpClient = (
           headers,
         },
         eventSourceInit: {
-          fetch: (url, init) => fetch(url, { ...init, headers }),
+          fetch: (url, init) => globalThis.fetch(url, { ...init, headers }),
         },
       });
     }
