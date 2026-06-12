@@ -39,6 +39,19 @@ app.use("/mcp-proxy", mcpProxyRouter);
 // Mount tRPC routes
 app.use("/trpc", trpcRouter);
 
+app.get("/", (_req, res) => {
+  res.json({
+    status: "ok",
+    service: "metamcp-backend",
+  });
+});
+
+app.get("/health", (_req, res) => {
+  res.json({
+    status: "ok",
+  });
+});
+
 async function start(): Promise<void> {
   // Startup initialization (must run after DB is reachable/migrations are applied, and before listening)
   await initializeOnStartup();
@@ -65,13 +78,11 @@ async function start(): Promise<void> {
   });
 }
 
-start().catch((err) => {
-  console.error("❌ Fatal startup error:", err);
-  // Do not throw - keep consistent with other startup behavior
-});
+export default app;
 
-app.get("/health", (req, res) => {
-  res.json({
-    status: "ok",
+if (!process.env.VERCEL) {
+  start().catch((err) => {
+    console.error("❌ Fatal startup error:", err);
+    // Do not throw - keep consistent with other startup behavior
   });
-});
+}
