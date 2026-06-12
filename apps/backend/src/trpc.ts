@@ -2,7 +2,7 @@ import type { BaseContext } from "@repo/trpc";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Request, Response as ExpressResponse } from "express";
 
-import { auth, type Session, type User } from "./auth";
+import { handleAuthRequest, type Session, type User } from "./auth";
 import logger from "./utils/logger";
 
 // Extend the base context with Express request/response and auth data
@@ -41,7 +41,7 @@ export const createContext = async ({
         headers,
       });
 
-      const sessionResponse = await auth.handler(sessionRequest);
+      const sessionResponse = await handleAuthRequest(sessionRequest);
 
       if (sessionResponse.ok) {
         const sessionData = (await sessionResponse.json()) as {

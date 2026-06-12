@@ -609,6 +609,7 @@ export class MetaMcpServerPool {
     if (age === undefined) return false;
 
     const sessionLifetime = await configService.getSessionLifetime();
+    if (sessionLifetime == null) return false;
     return age > sessionLifetime;
   }
 }

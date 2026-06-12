@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import { ConfigKeyEnum } from "@repo/zod-types";
 import { and, eq, isNull, notInArray } from "drizzle-orm";
 
-import { auth } from "../auth";
+import { handleAuthRequest } from "../auth";
 import { db } from "../db";
 import {
   accountsTable,
@@ -414,7 +414,7 @@ async function ensureUser(
       }),
     });
 
-    const response = await auth.handler(request);
+    const response = await handleAuthRequest(request);
     if (!response.ok) {
       const body = await response.text().catch(() => "");
       console.warn(

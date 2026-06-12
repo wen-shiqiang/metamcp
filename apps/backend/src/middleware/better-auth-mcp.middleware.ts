@@ -4,7 +4,7 @@ import express from "express";
 
 import logger from "@/utils/logger";
 
-import { auth } from "../auth";
+import { handleAuthRequest } from "../auth";
 
 /**
  * Better Auth middleware for MCP proxy routes
@@ -39,7 +39,7 @@ export const betterAuthMcpMiddleware = async (
       headers,
     });
 
-    const sessionResponse = await auth.handler(sessionRequest);
+    const sessionResponse = await handleAuthRequest(sessionRequest);
 
     if (!sessionResponse.ok) {
       logger.info("Auth middleware - session verification failed");

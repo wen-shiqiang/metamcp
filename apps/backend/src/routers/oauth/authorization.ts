@@ -2,7 +2,7 @@ import express from "express";
 
 import logger from "@/utils/logger";
 
-import { auth } from "../../auth";
+import { handleAuthRequest } from "../../auth";
 import { oauthRepository } from "../../db/repositories";
 import {
   generateSecureAuthCode,
@@ -137,7 +137,7 @@ authorizationRouter.get("/oauth/authorize", rateLimitAuth, async (req, res) => {
           headers,
         });
 
-        const sessionResponse = await auth.handler(sessionRequest);
+        const sessionResponse = await handleAuthRequest(sessionRequest);
 
         if (sessionResponse.ok) {
           const sessionData = (await sessionResponse.json()) as {
@@ -303,7 +303,7 @@ Content-Type: application/json
       headers,
     });
 
-    const sessionResponse = await auth.handler(sessionRequest);
+    const sessionResponse = await handleAuthRequest(sessionRequest);
 
     if (!sessionResponse.ok) {
       // Redirect back to login if session invalid
