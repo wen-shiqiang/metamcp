@@ -321,7 +321,13 @@ const createTransport = async (req: express.Request): Promise<Transport> => {
 
     const transport = new SSEClientTransport(new URL(url), {
       eventSourceInit: {
-        fetch: (url, init) => globalThis.fetch(url, { ...init, headers }),
+        // Cast needed: Express Response shadows fetch Response in Vercel's TS pass
+        fetch: ((url, init) =>
+          globalThis.fetch(url, { ...init, headers })) as NonNullable<
+          NonNullable<
+            ConstructorParameters<typeof SSEClientTransport>[1]
+          >["eventSourceInit"]
+        >["fetch"],
       },
       requestInit: {
         headers,

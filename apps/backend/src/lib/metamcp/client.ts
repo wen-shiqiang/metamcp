@@ -103,7 +103,12 @@ export const createMetaMcpClient = (
           headers,
         },
         eventSourceInit: {
-          fetch: (url, init) => globalThis.fetch(url, { ...init, headers }),
+          fetch: ((url, init) =>
+            globalThis.fetch(url, { ...init, headers })) as NonNullable<
+            NonNullable<
+              ConstructorParameters<typeof SSEClientTransport>[1]
+            >["eventSourceInit"]
+          >["fetch"],
         },
       });
     }
